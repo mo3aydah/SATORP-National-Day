@@ -1,0 +1,64 @@
+@font-face {
+    font-family: "Satorp";
+    src: url("../fonts/Satorp-Medium.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Satorp";
+    src: url("../fonts/Satorp-Bold.otf") format("opentype");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "Satorp";
+    src: url("../fonts/Satorp-Light.otf") format("opentype");
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: "Satorp";
+    src: url("../fonts/Satorp-Regular.otf") format("opentype");
+    font-weight: 400;
+}
+
+body {
+    font-family: "Satorp", sans-serif;
+    background: url("../images/background-color.png");
+}
+
+#myCanvas {
+    max-height: 800px;
+}
+
+.container {
+    display: block;
+    margin: auto;
+    height: auto;
+}
+
+canvas {
+    max-width: 100%;
+}
+
+.lang-switch {
+    color: white;
+    font-size: 14px;
+}
+
+footer {
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    padding: 10px 0;
+}
+
+footer a {
+    font-weight: bold;
+    color: white !important;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
