@@ -51,7 +51,14 @@ document.getElementById("downloadCard").addEventListener("click", function () {
         context.font = cardFont;
         context.textAlign = "center";
         context.fillStyle = "white";
+        // Soft shadow keeps the name readable over the patterned artwork
+        context.shadowColor = "rgba(0, 0, 0, 0.45)";
+        context.shadowBlur = 12;
+        context.shadowOffsetY = 2;
         context.fillText(text, textX, textY, textMaxWidth);
+        context.shadowColor = "transparent";
+        context.shadowBlur = 0;
+        context.shadowOffsetY = 0;
 
         nameInput.value = "";
         downloadCanvasAsImage();
