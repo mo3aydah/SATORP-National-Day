@@ -1,13 +1,15 @@
+/* Based on the official SND campaign copy; the two pillar lines carry an
+   added greeting tail so every option reads as a wish (pending client OK) */
 var MESSAGES = {
   en: [
-    "Happy Saudi National Day — may our nation always prosper and thrive.",
-    "Glory is in our nature. Wishing you a proud and joyful National Day.",
-    "Celebrating our nation's glory and achievements — Happy Saudi National Day."
+    "Wishing our nation pride and prosperity.",
+    "A vision that inspires greater ambition, happy Saudi National Day.",
+    "Resolve that drives us forward, may our nation's glory endure."
   ],
   ar: [
-    "دام عزّك يا وطن، وكل عام ووطننا الغالي بخير وازدهار.",
-    "عزّنا بطبعنا، ودامت راية وطننا خفّاقة عالية بالمجد والفخر.",
-    "بمناسبة اليوم الوطني السعودي، أتمنى لوطننا دوام التقدم والازدهار."
+    "كل عام ووطننا بخير وازدهار.",
+    "نعتز برؤيةٍ تلهم طموحًا أكبر، وكل عام وأنتم بخير.",
+    "نعتز بهمّةٍ تدفعنا إلى الأمام، ودام عزّ الوطن."
   ]
 };
 
@@ -23,14 +25,14 @@ var CARDS = {
     nameYRatio: 0.65
   },
   "2": {
-    image: "assets/images/National-Day-2.jpg",
+    image: "assets/images/National-Day-2.jpg?v=2",
     textColor: "#FFFFFF",
-    nameYRatio: 0.65
+    nameYRatio: 0.42
   },
   "3": {
-    image: "assets/images/National-Day-3.jpg",
+    image: "assets/images/National-Day-3.jpg?v=2",
     textColor: "#FFFFFF",
-    nameYRatio: 0.65
+    nameYRatio: 0.34
   }
 };
 
