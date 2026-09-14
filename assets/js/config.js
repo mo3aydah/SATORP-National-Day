@@ -27,7 +27,7 @@ var CARDS = {
   "2": {
     image: "assets/images/National-Day-2.jpg?v=2",
     textColor: "#FFFFFF",
-    nameYRatio: 0.42
+    nameYRatio: 0.37
   },
   "3": {
     image: "assets/images/National-Day-3.jpg?v=2",
