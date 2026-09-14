@@ -8,12 +8,12 @@ National Day card, and download the result as a PNG to share.
 - `assets/js/card.js` — shared canvas logic for both pages (card image and
   download filename are set via `data-*` attributes on `<body>`)
 
-## ⚠️ Placeholder artwork
+## Artwork
 
-`assets/images/National-Day-ARA.jpg` and `assets/images/National-Day-ENG.jpg`
-are currently **copies of the Eid card artwork** as placeholders. Replace them
-with the National Day designs (1080×1080 px) before launch. If the name should
-sit somewhere else on the new design, adjust `textY` in `assets/js/card.js`.
+The card images come from the SND campaign "Social media Post" design
+(1080×1080 px). Both language pages currently use the same artwork; to give
+the English page its own design, replace `assets/images/National-Day-ENG.jpg`.
+The name position is set by `textY` in `assets/js/card.js`.
 
 ## Running locally
 
