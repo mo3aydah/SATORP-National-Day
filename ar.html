@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="preload" href="assets/fonts/Satorp-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="assets/fonts/Satorp-Light.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+    <meta name="description" content="أنشئ بطاقة تهنئة باليوم الوطني السعودي مميزة وشاركها مع من تحب." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="بطاقة تهنئة اليوم الوطني من ساتورب" />
+    <meta property="og:description" content="أنشئ بطاقة تهنئة باليوم الوطني السعودي مميزة وشاركها مع من تحب." />
+    <meta property="og:image" content="https://mo3aydah.github.io/SATORP-National-Day/assets/images/National-Day-1.jpg" />
+    <meta property="og:url" content="https://mo3aydah.github.io/SATORP-National-Day/ar.html" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <title>بطاقة تهنئة اليوم الوطني</title>
+</head>
+<body>
+    <div class="lang-select-bg" aria-hidden="true">
+        <div class="lang-select-bg-mirror" id="langSelectBgMirror"></div>
+    </div>
+    <div class="container mt-3">
+        <div class="link-lang-wrap"><a href="index.html?lang=ar" class="link-change-lang" aria-label="تغيير البطاقة أو اللغة">تغيير البطاقة &larr;</a></div>
+        <!-- Step indicator -->
+        <div class="step-indicator mb-2" dir="rtl" role="navigation" aria-label="خطوات إنشاء المعايدة">
+            <div class="step-item" aria-label="الخطوة ١ من ٣: الرسالة">
+                <span class="step-dot" data-step="1" aria-current="step">١</span>
+                <span class="step-caption">الرسالة</span>
+            </div>
+            <span class="step-line" aria-hidden="true"></span>
+            <div class="step-item" aria-label="الخطوة ٢ من ٣: الاسم">
+                <span class="step-dot" data-step="2">٢</span>
+                <span class="step-caption">الاسم</span>
+            </div>
+            <span class="step-line" aria-hidden="true"></span>
+            <div class="step-item" aria-label="الخطوة ٣ من ٣: المعاينة">
+                <span class="step-dot" data-step="3">٣</span>
+                <span class="step-caption">المعاينة</span>
+            </div>
+        </div>
+        <!-- Card preview (visible in all steps) -->
+        <div class="card-preview-wrap mb-4" id="cardPreviewWrap">
+            <div class="card-preview-loading" id="cardPreviewLoading" aria-live="polite">جاري تحميل المعايدة...</div>
+            <div class="imageCover text-center">
+                <canvas id="myCanvas" height="1080" width="1080" role="img" aria-label="بطاقة تهنئة اليوم الوطني"></canvas>
+                <img id="finalCard" class="final-card-img" alt="بطاقة تهنئة اليوم الوطني" hidden />
+            </div>
+        </div>
+
+        <!-- Step 1: Choose message -->
+        <div id="step1" class="card-step step-visible" role="region" aria-label="الخطوة ١: اختر رسالتك">
+            <h2 class="text-white mb-3">اختر رسالتك</h2>
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 d-flex flex-column gap-2">
+                    <div id="messageOptions" class="d-flex flex-column gap-2" dir="rtl"></div>
+                    <button type="button" id="step1Next" class="btn btn-light btn-lg w-100 mt-2" disabled>التالي</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Enter name -->
+        <div id="step2" class="card-step" role="region" aria-label="الخطوة ٢: أدخل اسمك" hidden>
+            <h2 class="text-white mb-3">أدخل اسمك</h2>
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8">
+                    <input type="text" class="form-control form-control-lg" name="name" id="name" required maxlength="40" placeholder="أكتب اسمك هنا" dir="rtl" aria-describedby="nameError" />
+                    <p class="name-helper mt-2 mb-0">سيظهر هذا الاسم على البطاقة.</p>
+                    <p class="name-error mt-1 mb-0" id="nameError" role="alert" hidden>أدخل اسمك</p>
+                </div>
+                <div class="col-12 col-md-8 mt-4 d-flex flex-column gap-2">
+                    <button type="button" id="step2Back" class="btn btn-outline-light w-100">السابق</button>
+                    <button type="button" id="step2Next" class="btn btn-light btn-lg w-100" disabled>التالي</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Preview and download -->
+        <div id="step3" class="card-step" role="region" aria-label="الخطوة ٣: المعاينة والتحميل" hidden>
+            <h2 class="text-white mb-3">تهنئتك باليوم الوطني جاهزة الآن</h2>
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 d-flex flex-column gap-2">
+                    <button type="button" id="downloadCard" class="btn btn-light btn-lg w-100">حمل المعايدة</button>
+                    <button type="button" id="shareCard" class="btn btn-light btn-lg w-100" hidden>شارك البطاقة</button>
+                    <button type="button" id="step3Back" class="btn btn-outline-light w-100">السابق</button>
+                    <p id="downloadSuccess" class="download-success-badge mt-2 mb-0" role="status" aria-live="polite" hidden>تم تنزيل بطاقتك</p>
+                    <p id="saveHint" class="name-helper text-center mb-0" hidden>يمكنك أيضًا الضغط مطولًا على البطاقة بالأعلى لحفظها أو مشاركتها.</p>
+                    <a href="index.html?lang=ar" class="create-another">أنشئ بطاقة أخرى</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center mt-5 py-2 footer-lang-page" dir="ltr">
+        <p class="mb-0">Powered by
+            <a href="https://6degrees.com.sa/en" target="_blank" rel="noopener" class="footer-link footer-logo-link">
+                <img src="assets/images/6degrees-logo.png" alt="6 Degrees" class="footer-logo" />
+            </a>
+        </p>
+    </footer>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+      (function () {
+        var mirror = document.getElementById("langSelectBgMirror");
+        if (mirror) mirror.style.backgroundImage = "url(" + getCardImageUrl(getSelectedCardId()) + ")";
+      })();
+    </script>
+</body>
+</html>

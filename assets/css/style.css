@@ -1,64 +1,822 @@
+/* ===== Theme: dark navy blue reference + 6 Degrees form design ===== */
+:root {
+    /* Dark navy blue (reference: #020820) */
+    --navy: #020820;
+    --navy-dark: #010510;
+    --navy-light: #060c20;
+    --navy-muted: #0a1030;
+    /* Global */
+    --bg-primary: #020820;
+    --bg-input: #1A2434;
+    --bg-card: rgba(255, 255, 255, 0.03);
+    --text-primary: #ffffff;
+    --text-muted: #A0A0A0;
+    --text-hint: #A0A0A0;
+    --accent: #1E7A4C;
+    --accent-light: rgba(30, 122, 76, 0.25);
+    --border-subtle: rgba(255, 255, 255, 0.12);
+    --btn-primary-bg: #ffffff;
+    --btn-primary-text: #1a1a1a;
+    --input-radius: 8px;
+    --btn-radius: 10px;
+    --section-gap: 24px;
+}
+
 @font-face {
     font-family: "Satorp";
-    src: url("../fonts/Satorp-Medium.otf") format("opentype");
-    font-weight: normal;
+    src: url("../fonts/Satorp-Light.woff2") format("woff2");
+    font-weight: 300;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Satorp";
-    src: url("../fonts/Satorp-Bold.otf") format("opentype");
-    font-weight: bold;
+    src: url("../fonts/Satorp-Medium.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
 }
 
-@font-face {
-    font-family: "Satorp";
-    src: url("../fonts/Satorp-Light.otf") format("opentype");
-    font-weight: 300;
+* {
+    box-sizing: border-box;
 }
 
-@font-face {
-    font-family: "Satorp";
-    src: url("../fonts/Satorp-Regular.otf") format("opentype");
-    font-weight: 400;
+html {
+    min-height: 100%;
 }
 
 body {
-    font-family: "Satorp", sans-serif;
-    background: url("../images/background-color.png");
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
 }
 
-#myCanvas {
-    max-height: 800px;
-}
-
+/* ----- Layout (consistent 24px section spacing, relaxed padding) ----- */
 .container {
     display: block;
-    margin: auto;
-    height: auto;
+    margin: 0 auto;
+    max-width: 720px;
+    padding: 2rem 1.5rem 6rem;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: entryFade 0.4s ease-out forwards;
+}
+@keyframes entryFade {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* 24px vertical spacing between main sections */
+.container > p:first-of-type {
+    margin-bottom: var(--section-gap);
+}
+.step-indicator {
+    margin-bottom: var(--section-gap);
+}
+.card-preview-wrap {
+    margin-top: var(--section-gap);
+    margin-bottom: 0;
+}
+.card-step {
+    margin-top: 0;
+    margin-bottom: var(--section-gap);
+}
+.card-step:first-of-type {
+    margin-top: 0;
+}
+
+/* ----- Typography (6D-style: clear hierarchy) ----- */
+h1, .h1 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+}
+
+h2, .card-step h2 {
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.text-muted, .subtitle,
+body .text-white-50 {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* ----- Canvas / card preview ----- */
+.link-lang-wrap {
+    text-align: right;
+}
+.link-change-lang {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+.link-change-lang:hover {
+    color: var(--text-primary);
+}
+
+.card-preview-wrap {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    min-height: 280px;
+    padding: var(--section-gap) 0 0 0;
+}
+
+.card-preview-loading {
+    position: absolute;
+    inset: 0;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-input);
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+.card-preview-loading[hidden] {
+    display: none;
+}
+
+.imageCover {
+    margin: 0 auto;
+}
+
+/* Card canvas: text is drawn in JS using Satorp via context.font */
+#myCanvas {
+    max-height: 80vh;
+    max-height: min(800px, 80vh);
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 canvas {
     max-width: 100%;
+    height: auto;
+    object-fit: contain;
 }
 
-.lang-switch {
-    color: white;
-    font-size: 14px;
+/* Step 3 shows the rendered card as an <img> (long-press to save in webviews) */
+.final-card-img {
+    max-width: 100%;
+    height: auto;
+    max-height: min(800px, 80vh);
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Phones: keep the preview compact so the step controls share the screen */
+@media (max-width: 767px) {
+    #myCanvas,
+    .final-card-img {
+        max-height: min(48vh, 420px);
+    }
+    .card-preview-wrap {
+        min-height: 200px;
+    }
+}
+
+body:not(.page-lang-select) .container.mt-3 {
+    margin-top: 0;
+    padding-top: 0.75rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* ----- Language selection page (dark navy blue reference) ----- */
+body.page-lang-select {
+    background: var(--navy);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.lang-select-bg {
+    position: fixed;
+    inset: 0;
+    background: var(--navy);
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+/* Blurred card mirror: image set by JS to match selected card (card 1 default) */
+.lang-select-bg-mirror {
+    position: absolute;
+    inset: -20%;
+    background-image: url("../images/National-Day-1.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(50px);
+    transform: scale(1.15);
+    opacity: 0.9;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+/* Dark overlay so text stays readable */
+.lang-select-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        145deg,
+        rgba(2, 5, 16, 0.82) 0%,
+        rgba(2, 8, 32, 0.78) 45%,
+        rgba(6, 12, 32, 0.85) 100%
+    );
+    pointer-events: none;
+}
+.page-lang-select-inner {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    max-width: 480px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem 2rem;
+}
+.lang-select-content {
+    text-align: center;
+    width: 100%;
+    padding-top: 0.75rem;
+}
+/* Card deck: fanned stack (swipe and choose) */
+.deck-hint {
+    margin: 0.4rem 0 1.75rem !important;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+}
+.deck-hint-bilingual {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25em;
+}
+.deck-hint-sep {
+    opacity: 0.7;
+}
+.card-deck {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.25rem;
+    min-height: 280px;
+    cursor: grab;
+    user-select: none;
+}
+.card-deck:active {
+    cursor: grabbing;
+}
+.card-deck-item {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 65%;
+    max-width: 210px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 2px 6px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transform-origin: bottom center;
+    transition: transform 0.4s ease, box-shadow 0.35s ease, opacity 0.3s ease;
+}
+.card-deck-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    vertical-align: middle;
+    border-radius: 14px;
+}
+.card-deck-item[data-card="1"] {
+    transform: translateX(-50%) rotate(-12deg) translateX(-22px);
+}
+.card-deck-item[data-card="2"] {
+    transform: translateX(-50%);
+}
+.card-deck-item[data-card="3"] {
+    transform: translateX(-50%) rotate(12deg) translateX(22px);
+}
+.card-deck-item.selected {
+    z-index: 10 !important;
+    transform: translateX(-50%) rotate(0) scale(1.08) translateY(-12px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 0 2px rgba(255, 255, 255, 0.18);
+    opacity: 1;
+}
+.card-deck-item:not(.selected) {
+    opacity: 0.8;
+}
+.card-deck-item:not(.selected):hover {
+    opacity: 1;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+}
+.card-deck-item:focus {
+    outline: none;
+}
+.card-deck-item:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 3px;
+}
+/* Checkmark badge so the selected design is unmistakable */
+.card-deck-item.selected::after {
+    content: "✓";
+    position: absolute;
+    top: 8px;
+    inset-inline-end: 8px;
+    width: 1.6rem;
+    height: 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.deck-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 0.9rem 0 0.2rem;
+}
+.deck-dots button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+.deck-dots button.active {
+    background: #ffffff;
+    transform: scale(1.25);
+}
+.deck-dots button:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+.lang-select-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    color: #ffffff;
+    font-size: clamp(1.65rem, 4.5vw, 2.1rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.35;
+    margin: 0 0 0.6rem;
+}
+.lang-select-title-en,
+.lang-select-title-ar {
+    display: block;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+}
+.lang-select-desc {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin: 0 0 2.75rem;
+}
+.lang-select-desc-ar {
+    margin-bottom: 2.75rem;
+}
+.lang-select-buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+}
+.lang-btn-primary,
+.lang-btn-secondary {
+    display: block;
+    width: 100%;
+    min-height: 52px;
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.1s ease;
+}
+/* Both CTAs: same color (filled light gray) */
+.lang-btn-primary,
+.lang-btn-secondary {
+    background: #e5e5e5;
+    color: #1a1a1a;
+    border: none;
+}
+.lang-btn-primary:hover,
+.lang-btn-secondary:hover {
+    background: #ebebeb;
+    transform: translateY(-1px);
+}
+.lang-btn-primary:focus-visible,
+.lang-btn-secondary:focus-visible {
+    outline: 2px solid #1a1a1a;
+    outline-offset: 2px;
+}
+.lang-btn-primary:active,
+.lang-btn-secondary:active {
+    transform: translateY(0);
+}
+.lang-btn-preferred {
+    order: -1;
+    background: #ffffff;
+    box-shadow: 0 0 0 2px var(--accent);
+}
+.footer-lang-page {
+    position: relative;
+    z-index: 1;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    text-align: center;
+}
+.footer-lang-page a {
+    font-weight: 500;
+}
+/* Same footer look on language-select and card pages */
+footer.footer-lang-page {
+    background: transparent;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+}
+footer.footer-lang-page a {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ----- Footer (6D-style: minimal, link to 6degrees.com.sa) ----- */
+/* Footer on card pages (ar/en): above blur background */
+body:not(.page-lang-select) footer {
+    position: relative;
+    z-index: 1;
 }
 
 footer {
-    color: white;
-    font-size: 14px;
+    color: var(--text-muted);
+    font-size: 0.875rem;
     text-align: center;
-    padding: 10px 0;
+    padding: 0.875rem 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-primary);
+    opacity: 0.7;
 }
 
 footer a {
-    font-weight: bold;
-    color: white !important;
+    color: #fff !important;
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.2s;
 }
 
 footer a:hover {
+    opacity: 1;
     text-decoration: underline;
+}
+footer a.footer-logo-link {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+}
+footer a.footer-logo-link:hover {
+    text-decoration: none;
+    opacity: 0.9;
+}
+.footer-logo {
+    height: 1.25em;
+    width: auto;
+    vertical-align: middle;
+    display: inline-block;
+}
+footer p.mb-0 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.35em;
+}
+
+/* ----- Three-step flow (generous vertical spacing + step transition) ----- */
+.card-step {
+    min-height: 200px;
+    opacity: 0;
+    transition: opacity 220ms ease;
+}
+.card-step.step-visible {
+    opacity: 1;
+}
+
+.card-step h2 {
+    margin-bottom: 1.25rem;
+}
+#step1 h2 {
+    margin-bottom: 0;
+}
+#step1 > .row {
+    margin-top: 0;
+}
+
+.card-step .d-flex.gap-2,
+.card-step .mt-4 {
+    margin-top: 1.5rem !important;
+}
+
+.step-indicator {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.step-caption {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+    font-weight: 500;
+}
+.step-item:has(.step-dot.active) .step-caption {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.step-dot {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-muted);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: 1px solid var(--border-subtle);
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+/* Current step: white highlight */
+.step-dot.active {
+    background: #ffffff;
+    border-color: #ffffff;
+    color: #1a1a1a;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+/* Completed steps: muted, and tappable to jump back */
+.step-dot.completed {
+    background: var(--accent-light);
+    border-color: var(--accent);
+    color: #fff;
+    cursor: pointer;
+}
+
+.step-line {
+    width: 2.5rem;
+    height: 2px;
+    background: var(--border-subtle);
+    align-self: center;
+    margin-top: calc(1.125rem - 1px);
+    flex-shrink: 0;
+}
+
+/* Message selection: selectable cards (wizard-style) */
+.message-option {
+    position: relative;
+    background: var(--bg-input);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--text-primary);
+    padding: 1rem 3rem 1rem 1.25rem;
+    border-radius: var(--input-radius);
+    font-weight: 500;
+    font-size: 1rem;
+    text-align: inherit;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+    box-shadow: none;
+}
+
+.message-option:hover {
+    background: #243044;
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 4px 12px rgba(0, 0, 0, 0.2);
+    color: var(--text-primary);
+}
+
+.message-option.active {
+    background: var(--accent-light);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 0 2px var(--accent), 0 4px 12px var(--accent-light);
+}
+
+/* Checkmark when selected */
+.message-option.active::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: #fff;
+    width: 1.35rem;
+    height: 1.35rem;
+    border-radius: 50%;
+    line-height: 1.35rem;
+    text-align: center;
+}
+[dir="rtl"] .message-option {
+    padding: 1rem 1.25rem 1rem 3rem;
+}
+[dir="rtl"] .message-option.active::after {
+    right: auto;
+    left: 1rem;
+}
+
+/* ----- Buttons: primary = brand blue filled, secondary = outline only ----- */
+body .btn-light {
+    background: var(--btn-primary-bg);
+    border: none;
+    color: var(--btn-primary-text);
+    font-weight: 600;
+    border-radius: var(--btn-radius);
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    transition: background 0.2s, opacity 0.2s, transform 0.1s;
+}
+body .btn-light:hover:not(:disabled) {
+    background: #f0f0f0;
+    color: var(--btn-primary-text);
+    opacity: 1;
+    transform: translateY(-1px);
+}
+body .btn-light:disabled {
+    background: rgba(255, 255, 255, 0.25);
+    color: rgba(26, 26, 26, 0.5);
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Download button loading state */
+.download-spinner {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid rgba(0, 0, 0, 0.15);
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: download-spin 0.7s linear infinite;
+    vertical-align: -0.2em;
+    margin-inline-end: 0.5rem;
+}
+@keyframes download-spin {
+    to { transform: rotate(360deg); }
+}
+body .btn-light .download-spinner {
+    border-color: rgba(0, 0, 0, 0.15);
+    border-top-color: currentColor;
+}
+
+/* Download success badge */
+.download-success-badge {
+    font-size: 0.875rem;
+    color: #6bcb77;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    transition: opacity 0.3s ease;
+}
+.download-success-badge::before {
+    content: "✓";
+    font-weight: 700;
+    font-size: 1rem;
+}
+.download-success-badge[hidden] {
+    display: none !important;
+}
+
+/* Secondary: outline only (Back) */
+body .btn-outline-light {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: var(--btn-radius);
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+}
+body .btn-outline-light:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: var(--text-primary);
+}
+
+/* Input overrides (reference: dark embedded field, no border) */
+body .form-control {
+    background: var(--bg-input);
+    border: none;
+    color: var(--text-primary);
+    border-radius: var(--input-radius);
+    padding: 0.875rem 1.25rem;
+}
+body .form-control::placeholder {
+    color: var(--text-hint);
+}
+body .form-control:focus {
+    background: var(--bg-input);
+    border: none;
+    color: var(--text-primary);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
+    outline: none;
+}
+
+/* ----- Keyboard focus (WCAG 2.4.7): visible focus, 3:1 contrast ----- */
+body .btn-light:focus-visible {
+    outline: 2px solid #2d2d2d;
+    outline-offset: 2px;
+}
+body .btn-outline-light:focus-visible,
+.message-option:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+.link-change-lang:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+body .form-control:focus-visible {
+    box-shadow: 0 0 0 2px #fff;
+    outline: 2px solid transparent;
+    outline-offset: 0;
+}
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .card-step,
+    .message-option,
+    body .btn-light,
+    body .btn-outline-light {
+        transition: none;
+    }
+}
+
+/* Name entry (step 2): helper, error, live preview */
+.name-helper {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.name-error {
+    font-size: 0.85rem;
+    color: #e87474;
+}
+
+.create-another {
+    display: block;
+    text-align: center;
+    margin-top: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+.create-another:hover {
+    color: #ffffff;
+}
+.create-another:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+    border-radius: 2px;
 }
