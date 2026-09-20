@@ -1,15 +1,15 @@
-/* Based on the official SND campaign copy; the two pillar lines carry an
-   added greeting tail so every option reads as a wish (pending client OK) */
+/* Official Corporate Communication copy (GA & PR update, 20 Sep 2026);
+   Arabic and English lines are paired by index */
 var MESSAGES = {
   en: [
-    "Wishing our nation pride and prosperity.",
-    "A vision that inspires greater ambition, happy Saudi National Day.",
-    "Resolve that drives us forward, may our nation's glory endure."
+    "On National Day, we celebrate the achievements of our nation and embrace a bright future.",
+    "On National Day, our aspiration unites us in our endeavor towards growth and prosperity.",
+    "With our determination, we advance towards achievements and glorious future."
   ],
   ar: [
-    "كل عام ووطننا بخير وازدهار.",
-    "نعتز برؤيةٍ تلهم طموحًا أكبر، وكل عام وأنتم بخير.",
-    "نعتز بهمّةٍ تدفعنا إلى الأمام، ودام عزّ الوطن."
+    "في يوم الوطن، نفخر بإنجازات شعبنا ونتطلع إلى مستقبل مشرق.",
+    "في يوم الوطن، نتحد بطموح نحو مزيد من النمو والازدهار.",
+    "بعزيمتنا، نمضي معاً نحو مستقبل حافل بالمجد والإنجاز."
   ]
 };
 
