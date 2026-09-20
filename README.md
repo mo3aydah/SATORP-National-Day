@@ -20,9 +20,11 @@ styling), with National Day content.
 ## Artwork
 
 `assets/images/National-Day-1.jpg`, `-2.jpg`, `-3.jpg` are the three card
-designs (1080×1080 px). They are currently **the same design three times**
-(from the SND campaign "Social media Post"); drop in the real second and third
-designs by replacing the files — no code changes needed.
+designs (1080×1080 px), from the SND campaign "Social media Post":
+عزّنا برؤيتنا (gold), عزّنا بهمّتنا (green), and عزّنا بكرمنا (blue).
+To swap a design, replace the file and bump its `?v=` in `config.js` and
+`index.html`; if the new artwork's open space sits elsewhere, adjust that
+card's `nameYRatio` so the message and name stay clear of the artwork.
 
 ## Running locally
 

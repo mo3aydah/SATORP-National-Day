@@ -20,14 +20,14 @@ var MESSAGES = {
  */
 var CARDS = {
   "1": {
-    image: "assets/images/National-Day-1.jpg",
+    image: "assets/images/National-Day-1.jpg?v=3",
     textColor: "#FFFFFF",
-    nameYRatio: 0.65
+    nameYRatio: 0.30
   },
   "2": {
-    image: "assets/images/National-Day-2.jpg?v=2",
+    image: "assets/images/National-Day-2.jpg?v=3",
     textColor: "#FFFFFF",
-    nameYRatio: 0.37
+    nameYRatio: 0.34
   },
   "3": {
     image: "assets/images/National-Day-3.jpg?v=2",
